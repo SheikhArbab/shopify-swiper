@@ -1,0 +1,364 @@
+{{ 'swiper-bundle.min.css' | asset_url | stylesheet_tag }}
+{{ 'swiper-bundle.min.js' | asset_url | script_tag }}
+
+
+<div class="testimonial-container">
+  <div>
+    <h1 class="testimonial-heading-text">{{ section.settings.heading }}</h1>
+  </div>
+
+
+  <div class="swiper-container">
+    <div class="swiper-wrapper">
+      {% for block in section.blocks %}
+        <div class="swiper-slide">
+          <div class="testimonial-box" style="background-color: {{ block.settings.box-bg-color }}">
+            <img src="{{ block.settings.image | image_url: width: 300 }}">
+            <div class="testimonial-text">
+              <h1
+                class="heading-inner"
+                style="color: {{ block.settings.rahulcolor }}; font-weight: {{ block.settings.slide-font-weight }}; font-size: {{ block.settings.slide-heading-font-size }}px"
+              >
+                {{ block.settings['slide-text'] }}
+              </h1>
+              <p style="font-size: {{ block.settings.desc-size }}px; color: {{ block.settings.desc-color }}">
+                {{ block.settings.desc }}
+              </p>
+            </div>
+          </div>
+        </div>
+      {% endfor %}
+    </div>
+    <div class="arrows-nav">
+      <div class="swiper-button-next"></div>
+      <div class="swiper-button-prev"></div>
+    </div>
+    <div class="swiper-pagination"></div>
+  </div>
+</div>
+
+
+<script>
+  var mySwiper = new Swiper('.swiper-container', {
+    direction: 'horizontal',
+    loop: true,
+    slidesPerView: 3,
+    navigation: {
+      nextEl: '.swiper-button-next',
+      prevEl: '.swiper-button-prev',
+    },
+    pagination: {
+      el: '.swiper-pagination',
+      clickable: true,
+    },
+
+
+    autoplay: {
+      delay: 2000, // Delay between slides in milliseconds (3 seconds in this example)
+    },
+  });
+</script>
+
+
+<style>
+       * {
+          margin: 0;
+          padding: 0;
+          box-sizing: border-box;
+       }
+
+
+    /* Add some basic styles for the Swiper container */
+    .swiper-container {
+      width: 100%;
+      margin: 0 auto;
+      padding: 50px 5px;
+    }
+
+
+    .swiper-pagination {
+      position: relative !important;
+      margin-top: 20px;
+    }
+
+
+      .testimonial-box {
+         width: 400px;
+         padding: 17px 25px;
+         border-radius: 10px;
+         display: flex;
+         align-items: center;
+         justify-content: space-evenly;
+         gap: 20px;
+       }
+
+
+       .testimonial-heading-text {
+          font-size: {{ section.settings.heading-font-size }}px;
+          color: {{ section.settings.heading-font-color }};
+          font-weight: {{ section.settings.weight }};
+     }
+
+
+    .testimonial-text .heading-inner {
+       font-size: 25px;
+
+
+     }
+
+
+        .testimonial-main {
+         display: flex;
+         justify-content: center;
+         align-items: center;
+         gap: 20px;
+     }
+
+
+       .testimonial-box img {
+         width: 100px;
+         height: 100px;
+       }
+
+
+       .testimonial-text {
+         display: flex;
+         flex-direction: column;
+         justify-content: center;
+         align-items: start;
+       }
+
+
+    .swiper-slide {
+      margin: 10px;
+    }
+
+
+    .testimonial-container {
+         display: flex;
+         justify-content: center;
+         align-items: center;
+         width: auto;
+         gap: 20px;
+         padding: 30px 40px;
+         margin: auto;
+         overflow:hidden;
+         flex-direction: column;
+         background-color: {{ section.settings.main-bg-color }}
+       }
+
+
+
+
+       @media only screen and (max-width: 768px) {
+         <!-- .testimonial-container {
+           padding: 10px;
+           width: 90%;
+         } -->
+
+
+         .testimonial-box {
+           width: 100% !important;
+         }
+
+
+         .testimonial-main {
+         flex-direction: column;
+      }
+
+
+        .swiper-wrapper {
+        width: 100%;
+        overflow: hidden;
+       }
+
+
+    .swiper-container {
+      width: 100%;
+    }
+
+
+    .swiper-slide {
+      /* width: auto !important; /* Adjust the slide width as needed */ */
+      margin: 10px;
+      display:flex;
+      justify-content: center;
+      align-items: center;
+    }
+
+
+    /* Style adjustments for smaller screens (e.g., mobile) */
+  @media screen and (max-width: 768px) {
+    .swiper-container {
+      width: 100%; /* Full width on smaller screens */
+    }
+
+
+    .swiper-slide {
+      width: 100% !important; /* Adjust slide width for mobile */
+    }
+  }
+</style>
+
+
+{% schema %}
+{
+  "name": "Testimonial Slider",
+  "settings": [
+    {
+      "type": "text",
+      "id": "heading",
+      "label": "Enter slider heading here"
+    },
+
+
+    {
+      "type": "color",
+      "id": "heading-font-color",
+      "label": "Heading Font Color"
+    },
+
+
+    {
+      "type": "color",
+      "id": "main-bg-color",
+      "label": "Background Color"
+    },
+
+
+    {
+      "type": "range",
+      "id": "heading-font-size",
+      "label": "Heading font size",
+      "max": 50,
+      "min": 10,
+      "default": 20
+    },
+
+
+    {
+      "type": "select",
+      "id": "weight",
+      "label": "Font Weight",
+      "options": [
+        {
+          "value": "normal",
+          "label": "Normal"
+        },
+        {
+          "value": "bold",
+          "label": "Bold"
+        },
+        {
+          "value": "bolder",
+          "label": "Bolder"
+        }
+      ],
+      "default": "normal"
+    }
+  ],
+
+
+  "blocks": [
+    {
+      "name": "Slide",
+      "type": "slide",
+      "settings": [
+        {
+          "type": "image_picker",
+          "id": "image",
+          "label": "Testimonial image"
+        },
+
+
+        {
+          "type": "color",
+          "id": "rahulcolor",
+          "label": "Heading Font Color"
+        },
+
+
+        {
+          "type": "color",
+          "id": "desc-color",
+          "label": "Description Color"
+        },
+
+
+        {
+          "type": "color",
+          "id": "box-bg-color",
+          "label": "Slide bg color"
+        },
+
+
+        {
+          "type": "text",
+          "id": "slide-text",
+          "label": "Enter Heading",
+          "default": "Your heading"
+        },
+
+
+        {
+          "type": "textarea",
+          "id": "desc",
+          "label": "Enter your description here"
+        },
+
+
+        {
+          "type": "range",
+          "id": "slide-heading-font-size",
+          "label": "Slide Heading font size",
+          "max": 50,
+          "min": 10,
+          "default": 20
+        },
+
+
+        {
+          "type": "select",
+          "id": "slide-font-weight",
+          "label": "Font Weight",
+          "options": [
+            {
+              "value": "normal",
+              "label": "Normal"
+            },
+            {
+              "value": "bold",
+              "label": "Bold"
+            },
+            {
+              "value": "bolder",
+              "label": "Bolder"
+            }
+          ],
+          "default": "normal"
+        },
+
+
+        {
+          "type": "range",
+          "id": "desc-size",
+          "label": "Description size",
+          "max": 50,
+          "min": 10,
+          "default": 15
+        }
+      ]
+    }
+  ],
+
+
+  "presets": [
+    {
+      "name": "testimonial slider",
+      "category": "custom"
+    }
+  ]
+}
+{% endschema %}
+
+
